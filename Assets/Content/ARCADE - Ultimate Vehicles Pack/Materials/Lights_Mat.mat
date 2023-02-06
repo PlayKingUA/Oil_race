@@ -120,7 +120,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveDirection: {r: 0, g: -0.26, b: 0, a: 0}
-    - _DissolveOffest: {r: 0, g: 1.36, b: 0, a: 0}
+    - _DissolveOffest: {r: 0, g: 1.29, b: 0, a: 0}
     - _EdgeColor: {r: 0.039525833, g: 0.88200724, b: 0.9522143, a: 1}
     - _EmissionColor: {r: 2.9960785, g: 2.9960785, b: 2.9960785, a: 1}
     - _NoiseUVSpeed: {r: 1, g: 1, b: 0, a: 0}
