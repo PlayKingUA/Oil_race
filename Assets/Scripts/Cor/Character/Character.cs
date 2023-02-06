@@ -12,7 +12,7 @@ namespace BlueStellar.Cor
         [SerializeField] GameObject crown;
         [SerializeField] ParticleSystem effectDamage;
         [SerializeField] ParticleSystem effectDie;
-        [SerializeField] StackBalls _stackBalls;
+        [SerializeField] StackBarrels _stackBalls;
 
         [SerializeField] private bool isDeactiveCharacter;
          
@@ -82,9 +82,9 @@ namespace BlueStellar.Cor
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.tag == "Ball")
+            if (other.gameObject.tag == "Barrel")
             {
-                CollectableBall _ball = other.GetComponent<CollectableBall>();
+                CollectableBarrel _ball = other.GetComponent<CollectableBarrel>();
                 
                 if (!_ball.IsTrueCharacter(_characterColorType))
                     return;
@@ -97,7 +97,7 @@ namespace BlueStellar.Cor
             if (other.gameObject.tag == "Character")
             {
                 Character character = other.GetComponent<Character>();
-                StackBalls stackBalls = other.GetComponent<StackBalls>();
+                StackBarrels stackBalls = other.GetComponent<StackBarrels>();
 
                 if (isDeactiveCharacter)
                     return;

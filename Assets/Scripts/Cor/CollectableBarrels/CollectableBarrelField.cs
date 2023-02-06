@@ -22,6 +22,7 @@ namespace BlueStellar.Cor
         [SerializeField] private int length;
         [SerializeField] private int line;
         [SerializeField] private float xOrder;
+        [SerializeField] private float zF;
         [SerializeField] private float xPosition;
         [SerializeField] private float zPosition;
         [SerializeField] private float form;
@@ -103,7 +104,7 @@ namespace BlueStellar.Cor
 
         #region GenerateBalls
 
-        public void RemoveBall(CollectableBall collectableBall)
+        public void RemoveBall(CollectableBarrel collectableBall)
         {
             foreach (var i in spawnedBalls)
             {
@@ -152,7 +153,7 @@ namespace BlueStellar.Cor
 
             createdBall.transform.parent = transform;
             createdBall.transform.position = spawnedBall.SpawnPosition();
-            spawnedBall.SetNewSpawnedBall(createdBall.GetComponent<CollectableBall>());
+            spawnedBall.SetNewSpawnedBall(createdBall.GetComponent<CollectableBarrel>());
             respawnBalls.Remove(spawnedBall);
         }
 
@@ -190,7 +191,7 @@ namespace BlueStellar.Cor
             for (int i = 0; i < length; i++)
             {
                 xOrder += form;
-
+                
                 if (i % line == 0)
                 {
                     zPosition -= 1f;
@@ -199,7 +200,7 @@ namespace BlueStellar.Cor
                 }
                 else
                 {
-                    position = new Vector3(xPosition + xOrder, startPoint.y, zPosition);
+                    position = new Vector3(xPosition + xOrder, startPoint.y, zPosition + zF);
                 }
 
                 BallType ballType = ballTypes[Random.Range(0, ballTypes.Count)];
@@ -210,7 +211,7 @@ namespace BlueStellar.Cor
                 newCollectableBall.transform.parent = transform;
 
                 SpawnedBall spawnedBall = new SpawnedBall();
-                spawnedBall.SetSpawnedBall(newCollectableBall.GetComponent<CollectableBall>(), position, this);
+                spawnedBall.SetSpawnedBall(newCollectableBall.GetComponent<CollectableBarrel>(), position, this);
                 spawnedBalls.Add(spawnedBall);
             }
         }

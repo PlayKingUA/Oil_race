@@ -7,7 +7,6 @@ namespace BlueStellar.Cor
         #region Variables
 
         [SerializeField] Transform targetCharacter;
-        [SerializeField] Transform targetMonster;
 
         Transform _target;
         Transform _transform;
@@ -25,11 +24,6 @@ namespace BlueStellar.Cor
         {
             if(_target != null)
                 transform.position = _target.position;
-        }
-
-        public void SetMonsterTarget()
-        {
-            _target = targetMonster;
         }
     }
 }

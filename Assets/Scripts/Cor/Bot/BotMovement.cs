@@ -25,7 +25,7 @@ namespace BlueStellar.Cor
 
         [SerializeField] Rigidbody _rb;
         [SerializeField] NavMeshAgent _agent;
-        [SerializeField] StackBalls _stackBalls;
+        [SerializeField] StackBarrels _stackBalls;
         CollectableBarrelField _collectableBallsField;
         Vector3 ball;
         public int index;

@@ -10,9 +10,9 @@ namespace BlueStellar.Cor
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                if(collision.gameObject.GetComponent<CollectableBall>() != null)
+                if(collision.gameObject.GetComponent<CollectableBarrel>() != null)
                 {
-                    collision.gameObject.GetComponent<CollectableBall>().Normal();
+                    collision.gameObject.GetComponent<CollectableBarrel>().Normal();
                 }
             }
         }

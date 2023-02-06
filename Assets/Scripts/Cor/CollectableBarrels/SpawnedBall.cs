@@ -4,11 +4,11 @@ namespace BlueStellar.Cor
 {
     public class SpawnedBall
     {
-        CollectableBall _collectableBall;
+        CollectableBarrel _collectableBall;
         CharacterColorType _type;
         Vector3 _spawnPosition;
 
-        public CollectableBall GetCollectableBall()
+        public CollectableBarrel GetCollectableBall()
         {
             return _collectableBall;
         }
@@ -23,14 +23,14 @@ namespace BlueStellar.Cor
             return _spawnPosition;
         }
 
-        public void SetSpawnedBall(CollectableBall ball, Vector3 pos, CollectableBarrelField collectableBallsField)
+        public void SetSpawnedBall(CollectableBarrel ball, Vector3 pos, CollectableBarrelField collectableBallsField)
         {
             _collectableBall = ball;
             _type = _collectableBall.Type();
             _spawnPosition = pos;
         }
 
-        public void SetNewSpawnedBall(CollectableBall collectableBall)
+        public void SetNewSpawnedBall(CollectableBarrel collectableBall)
         {
             _collectableBall = collectableBall;
             _type = _collectableBall.Type();
