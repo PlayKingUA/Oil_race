@@ -4,14 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Missile
-  - Ball
   - Character
-  - Monster
   - Platform
   - Gate
-  - MonsterFields
   - Barrel
+  - TransportField
   layers:
   - Default
   - TransparentFX

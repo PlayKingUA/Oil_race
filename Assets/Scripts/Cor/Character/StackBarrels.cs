@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using BlueStellar.Cor.Transports;
 
 namespace BlueStellar.Cor
 {
@@ -46,22 +47,24 @@ namespace BlueStellar.Cor
             }
             currencyBalls.Add(_ball);
             int indexBall = currencyBalls.IndexOf(_ball);
-            //_ball.transform.position = currencyStackPoints[indexBall].position;
-            //_ball.transform.rotation = currencyStackPoints[indexBall].rotation;
             _ball.transform.parent = currencyStackPoints[0];
             _ball.BallInStack();
             effect.Play();
         }
 
-        public void UnstackCollectablekBalls()
+        public void UnstackCollectableBarrel(Transport transport)
         {
             for (int i = currencyBalls.Count - 1; i >= 0; i--)
             {
                 currencyBalls[i].transform.SetParent(null);
                 currencyBalls[i].transform.DOMove(transform.position + Vector3.up * 4f, 0.25f);
-                //currencyBalls[i].transform.DOJump(unstackMonster.transform.position, 4, 1, 0.3f).SetDelay(0.25f);
-               // currencyBalls[i].BallToMonster(unstackMonster);
+                currencyBalls[i].transform.DOJump(transport.transform.position, 4, 1, 0.3f).SetDelay(0.25f);
+                currencyBalls[i].BarrelToTransport(transport);
                 currencyBalls.Remove(currencyBalls[i]);
+                if (currencyBalls.Count > 0)
+                {
+                    currencyStackPoints[1].transform.position = currencyBalls[currencyBalls.Count - 1].transform.position;
+                }
                 return;
             }
         }

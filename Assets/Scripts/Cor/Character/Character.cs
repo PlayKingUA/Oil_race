@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using BlueStellar.Cor.Transports;
 
 namespace BlueStellar.Cor
 {
@@ -15,8 +16,8 @@ namespace BlueStellar.Cor
         [SerializeField] StackBarrels _stackBalls;
 
         [SerializeField] private bool isDeactiveCharacter;
-         
-   
+
+        Transport _transport;
         Leaderboard leaderboard;
 
         #endregion
@@ -54,28 +55,9 @@ namespace BlueStellar.Cor
             _stackBalls.DestroyedStack();
         }
 
-        public void KillCharacter()
-        {
-            effectDie.transform.parent = null;
-            effectDie.Play();
-            gameObject.GetComponent<Collider>().enabled = false;
- 
-            leaderboard.RemoveMember(_characterColorType);
-            StartCoroutine(IE_Die());
-        }
-
         public void KilledField(Transform p)
         {
-       
             transform.LookAt(p);
-        }
-
-        private IEnumerator IE_Die()
-        {
-            yield return new WaitForSeconds(2.5f);
-
-            transform.DOScale(0, 0.9f);
-            Destroy(gameObject, 2.5f);
         }
 
         #region CharacterCollisions
@@ -90,8 +72,7 @@ namespace BlueStellar.Cor
                     return;
 
                 _stackBalls.AddCollectableBall(_ball);
-               // if (_characterStates.IsPlayerCharacter())
-                 //   VibrationController.Instance.ClaimVibration();
+               
             }
 
             if (other.gameObject.tag == "Character")
@@ -109,14 +90,8 @@ namespace BlueStellar.Cor
                 if (_stackBalls.AmmountBalls() >= stackBalls.AmmountBalls())
                 {
                     other.GetComponent<Character>().KnockCharacter(transform);
-                    //if (_characterStates.IsPlayerCharacter())
-                      //  VibrationController.Instance.KnockVibration();
-
                     return;
                 }
-
-                //if (_characterStates.IsPlayerCharacter())
-                  //  VibrationController.Instance.KnockVibration();
 
                 KnockCharacter(other.transform);
             }
@@ -124,17 +99,11 @@ namespace BlueStellar.Cor
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.tag == "MonsterFields")
+            if (other.gameObject.tag == "TransportField")
             {
-                //_ballsMoster = other.GetComponentInParent<CollectableMonster>();
+                _transport = other.GetComponentInParent<Transport>();
+                _stackBalls.UnstackCollectableBarrel(_transport);
 
-                //if (_ballsMoster.IsDeactivetedMonster())
-                //    return;
-
-                //if (_characterStates.IsDie())
-                //    return;
-
-                //_stackBalls.UnstackCollectablekBalls(_ballsMoster);
                 //leaderboard.AddScoreMemeber(_characterColorType, _ballsMoster.GetFillingPercent(_characterColorType));
 
                 //if (_ballsMoster.IsFullMonster())
@@ -146,8 +115,8 @@ namespace BlueStellar.Cor
                 //    _stackBalls.ClearStack();
                 //}
 
-                //if (_stackBalls.AmmountBalls() == 0)
-                //    return; 
+                if (_stackBalls.AmmountBalls() == 0)
+                    return; 
 
                 //if (_characterStates.IsPlayerCharacter())
                 //    VibrationController.Instance.UnstackVibration();

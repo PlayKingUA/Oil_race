@@ -194,13 +194,13 @@ namespace BlueStellar.Cor
                 
                 if (i % line == 0)
                 {
-                    zPosition -= 1f;
+                    zPosition -= zF;
                     xOrder = 0;
                     position = new Vector3(xPosition, startPoint.y, zPosition);
                 }
                 else
                 {
-                    position = new Vector3(xPosition + xOrder, startPoint.y, zPosition + zF);
+                    position = new Vector3(xPosition + xOrder, startPoint.y, zPosition);
                 }
 
                 BallType ballType = ballTypes[Random.Range(0, ballTypes.Count)];

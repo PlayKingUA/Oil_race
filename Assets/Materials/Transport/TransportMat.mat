@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Lights_Mat
+  m_Name: TransportMat
   m_Shader: {fileID: -6465566751694194690, guid: 68e65d2e58a73c14d8b51311dc70d1ad,
     type: 3}
   m_ValidKeywords: []
@@ -117,15 +117,15 @@ Material:
     - _UseSpecularMap: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.38113207, g: 0.82787216, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveDirection: {r: 0, g: -0.26, b: 0, a: 0}
-    - _DissolveOffest: {r: 0, g: 1.29, b: 0, a: 0}
+    - _DissolveOffest: {r: 0, g: 0, b: 0, a: 0}
     - _EdgeColor: {r: 0.039525833, g: 0.88200724, b: 0.9522143, a: 1}
     - _EmissionColor: {r: 2.9960785, g: 2.9960785, b: 2.9960785, a: 1}
     - _NoiseUVSpeed: {r: 1, g: 1, b: 0, a: 0}
     - _Offest: {r: 0, g: 0, b: 0, a: 0}
-    - _SpecularColor: {r: 1, g: 0.35062516, b: 0, a: 1}
+    - _SpecularColor: {r: 0.07614807, g: 0.5684062, b: 0.6509434, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &593393898980431794

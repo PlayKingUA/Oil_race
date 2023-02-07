@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using BlueStellar.Cor.Transports;
 
 namespace BlueStellar.Cor
 {
@@ -44,7 +45,7 @@ namespace BlueStellar.Cor
                 _ballType == CharacterColorType.Neutral)
             {
                 newType = characterColorType;
-                SwitchColor(characterColorType);
+                //SwitchColor(characterColorType);
                 return true;
             }
 
@@ -60,7 +61,7 @@ namespace BlueStellar.Cor
             _collectableBarrelField.RemoveBall(this);
             transform.DOPunchScale(new Vector3(0.5f, 0.5f, 0.5f), 0.5f, 1);
             StopAllCoroutines();
-            StartCoroutine(IE_ReturnColorBall());
+            //StartCoroutine(IE_ReturnColorBall());
         }
        
         public void BallNeutral()
@@ -82,46 +83,13 @@ namespace BlueStellar.Cor
             cantStack = false;
         }
 
-        public void BallToMonster()
+        public void BarrelToTransport(Transport transport)
         {
             if (!isBallDestroyed)
             {
-                //ballsMonster.BallActiveted(_ballType);
+                transport.SetupMaterialSettings(_ballType);
                 isBallDestroyed = true;
                 Destroy(gameObject, 0.28f);
-            }
-        }
-
-        private IEnumerator IE_ReturnColorBall()
-        {
-            yield return new WaitForSeconds(0.2f);
-
-            //meshRenderer.material.DOColor(colorBall, 0.2f);
-            _ballType = newType;
-        }
-
-        private void SwitchColor(CharacterColorType _characterColorType)
-        {
-            switch (_characterColorType)
-            {
-                case CharacterColorType.Blue:
-                    //colorBall = colors[0];
-                    break;
-                case CharacterColorType.Green:
-                    //colorBall = colors[1];
-                    break;
-                case CharacterColorType.Violet:
-                    //colorBall = colors[2];
-                    break;
-                case CharacterColorType.Yellow:
-                    //colorBall = colors[3];
-                    break;
-                case CharacterColorType.Red:
-                    //colorBall = colors[4];
-                    break;
-                case CharacterColorType.Purple:
-                    //colorBall = colors[5];
-                    break;
             }
         }
     }
