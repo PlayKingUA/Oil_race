@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -34,7 +35,7 @@ namespace BlueStellar.Cor
         [HideInInspector]
         public UnityEvent OnLevelStart;
         [HideInInspector]
-        public UnityEvent OnLevelEnd;
+        public UnityEvent OnLevelFailed;
         [HideInInspector]
         public UnityEvent OnLevelCompleted;
 
@@ -55,33 +56,28 @@ namespace BlueStellar.Cor
             OnLevelStart.Invoke();
             UIManager.Instance.TutorialScreen(false);   
             UIManager.Instance.StartScreen(false);
-            UIManager.Instance.PointerScreen(true);
-            UIManager.Instance.LeaderboardScreen(true);
         }
 
         public void LevelCompleted()
         {
             LevelEnd();
             OnLevelCompleted?.Invoke();
-            CameraController.Instance.ChangeMonsterCam(false);
-            CameraController.Instance.JumpStateCam(true);
+            StartCoroutine(IE_WinCondtional());
         }
 
         public void LevelFailed()
         {
             LevelEnd();
-            UIManager.Instance.MoneyScreen(false);
-            UIManager.Instance.LoseScreen(true);
+            OnLevelFailed.Invoke();
+            StartCoroutine(IE_LoseConditional());
         }
 
         private void LevelEnd()
         {
-            OnLevelEnd.Invoke();
             UIManager.Instance.JoystickScreen(false);
             UIManager.Instance.SettingsButtonScreen(false);
             UIManager.Instance.SettingsScreen(false);
-            UIManager.Instance.PointerScreen(false);
-            UIManager.Instance.LeaderboardScreen(false);
+            UIManager.Instance.MoneyScreen(false);
         }
 
         private void NewLevel()
@@ -90,7 +86,7 @@ namespace BlueStellar.Cor
             if (isEditor)
                 return;
 
-            levelSpawner.SpawnLevel(lvlIndex);
+           // levelSpawner.SpawnLevel(lvlIndex);
             levelsProgress.CheckLevelsProgress();
             textLvlNumber.text = "Level " + lvlNumber;
         }
@@ -105,6 +101,20 @@ namespace BlueStellar.Cor
             }
             levelsProgress.ProgressUp();
             Save();
+        }
+
+        private IEnumerator IE_WinCondtional()
+        {
+            yield return new WaitForSeconds(2.5f);
+
+            UIManager.Instance.WinScreen(true);
+        }
+
+        private IEnumerator IE_LoseConditional()
+        {
+            yield return new WaitForSeconds(2f);
+
+            UIManager.Instance.LoseScreen(true);
         }
 
         #region Load&Save

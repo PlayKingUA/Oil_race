@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using BlueStellar.Cor.Characters;
 
 namespace BlueStellar.Cor
 {
@@ -7,14 +8,18 @@ namespace BlueStellar.Cor
     public class PlayerMovement : MonoBehaviour
     {
         [Header("MovementSettings")]
+        [SerializeField] Transform finishPoint;
         [SerializeField] Transform groundCheck;
         [SerializeField] LayerMask groundMask;
         [SerializeField] private float gravityMultyplier;
         [SerializeField] private float groundDistance;
         [SerializeField] private float speedMovement;
         [SerializeField] private float speedRotate;
+        [SerializeField] private float speedFinish;
         [SerializeField] private bool isLockControll;
         [SerializeField] CharacterAnimations characterAnimations;
+        [SerializeField] Transform characterPoint;
+        [SerializeField] Character ch;
 
         Vector3 gravityVelocity;
         Transform _transformPlayer;
@@ -28,7 +33,25 @@ namespace BlueStellar.Cor
             _joystick = GameObject.FindObjectOfType<FloatingJoystick>();
             LockControll(true);
             LevelController.Instance.OnLevelStart.AddListener(Move);
-            LevelController.Instance.OnLevelEnd.AddListener(Stop);
+            LevelController.Instance.OnLevelFailed.AddListener(Stop);
+        }
+
+        private void FixedUpdate()
+        {
+            if (!isFinish)
+                return;
+
+            if(_transformPlayer.position == finishPoint.position)
+            {
+                LevelController.Instance.LevelCompleted();
+                isFinish = true;
+                return;
+            }
+
+            _transformPlayer.position = Vector3.MoveTowards(_transformPlayer.position, finishPoint.position, speedFinish);
+            Vector3 look = finishPoint.position;
+            look.y = _transformPlayer.position.y;
+            _transformPlayer.DOLookAt(look, 0.3f);
         }
 
         private void Update()
@@ -54,23 +77,39 @@ namespace BlueStellar.Cor
             LockControll(true);
         }
 
-        public void MovementToTarget(Transform target)
+        public void MovementToTarget(Transform target, bool isParent)
         {
-            _transformPlayer.DOMove(new Vector3(target.position.x, 
-                _transformPlayer.position.y, target.position.z), 0.4f);
+            isK = isParent;
+            _transformPlayer.DOMove(new Vector3(target.position.x,
+                _transformPlayer.position.y, target.position.z), 0.1f).OnComplete(() => SetPos());
+            if(isParent)
+                _transformPlayer.transform.parent = target;
+            if (!isParent) 
+                _transformPlayer.transform.parent = null;
         }
 
-        public void JumpToTarget(Transform point)
+        public void MoveToFinish()
         {
-            transform.DOJump(point.position, 15, 1, 1.8f);
-            LockControll(true);
+            ch.transform.position = characterPoint.position;
+            isFinish = true;
+            characterAnimations.RunAnimation(1);
         }
+
+        private bool isFinish;
+        private bool isK;
 
         public void PushPlayer(Transform dir)
         {
-            Vector3 pushDirection = new Vector3(transform.position.x - dir.position.x,
-                transform.position.y, transform.position.z - dir.position.z);
-            _transformPlayer.DOJump(pushDirection, 1f, 1, 0.5f);
+           // Vector3 pushDirection = new Vector3(transform.position.x - dir.position.x,
+             //   transform.position.y, transform.position.z - dir.position.z);
+            //_transformPlayer.DOJump(pushDirection, 1f, 1, 0.5f);
+        }
+
+        private void SetPos()
+        {
+            ch.transform.position = characterPoint.position;
+            ch.transform.rotation = characterPoint.rotation;
+            LockControll(isK);
         }
 
         private void MovementControll()
@@ -96,7 +135,12 @@ namespace BlueStellar.Cor
                     gravityVelocity += Vector3.up * gravityMultyplier * Time.deltaTime;
                     _characterController.Move(gravityVelocity);
 
-                    characterAnimations.RunAnimation(1);
+                    if (xInput >= 0.1f || xInput <= -0.1f ||
+                       yInput >= 0.1f || yInput <= -0.1f)
+                    {
+                        characterAnimations.RunAnimation(1);
+                    }
+                    else { characterAnimations.RunAnimation(0); }
                 }
             }
 
@@ -105,5 +149,7 @@ namespace BlueStellar.Cor
                 characterAnimations.RunAnimation(0);
             }
         }
+
+        public float speed;
     }
 }

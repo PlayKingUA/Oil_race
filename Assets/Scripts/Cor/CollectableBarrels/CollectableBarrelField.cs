@@ -6,7 +6,7 @@ namespace BlueStellar.Cor
     public class CollectableBarrelField : MonoBehaviour
     {
         [System.Serializable]
-        public class BallType
+        public class BarrelType
         {
             public GameObject ballPrefab;
             public CharacterColorType type;
@@ -15,7 +15,7 @@ namespace BlueStellar.Cor
         #region Variables
 
         [Header("BallTypes")]
-        [SerializeField] List<BallType> ballTypes = new List<BallType>();
+        [SerializeField] List<BarrelType> ballTypes = new List<BarrelType>();
 
         [Space]
         [Header("FieldPlacement")]
@@ -32,61 +32,65 @@ namespace BlueStellar.Cor
         [SerializeField] private float timeToResetBall;
         [SerializeField] private float timer;
 
+        [Space]
+        [Header("NextFields")]
+        [SerializeField] CollectableBarrelField collectableBarrelField;
+
         private Vector3 startPoint;
         private Vector3 position;
 
-        List<SpawnedBall> spawnedBalls = new List<SpawnedBall>();
-        List<SpawnedBall> respawnBalls = new List<SpawnedBall>();
+        private List<SpawnedBarrel> _spawnedBarrels = new List<SpawnedBarrel>();
+        private List<SpawnedBarrel> _respawnBarrels = new List<SpawnedBarrel>();
 
         #endregion
 
-        public List<Vector3> ListTypeBalls(CharacterColorType colorType)
+        public List<Vector3> ListTypeBarrels(CharacterColorType colorType)
         {
-            List<Vector3> balls = new List<Vector3>();
+            List<Vector3> barrels = new List<Vector3>();
             switch (colorType)
             {
                 case CharacterColorType.Blue:
-                    foreach (var i in spawnedBalls)
+                    foreach (var i in _spawnedBarrels)
                     {
                         if (i.GetSpawnedBallType() == colorType)
-                            balls.Add(i.SpawnPosition());
+                            barrels.Add(i.SpawnPosition());
                     }
-                    return balls;
+                    return barrels;
                 case CharacterColorType.Yellow:
-                    foreach (var i in spawnedBalls)
+                    foreach (var i in _spawnedBarrels)
                     {
                         if (i.GetSpawnedBallType() == colorType)
-                            balls.Add(i.SpawnPosition());
+                            barrels.Add(i.SpawnPosition());
                     }
-                    return balls;
+                    return barrels;
+                case CharacterColorType.Pink:
+                    foreach (var i in _spawnedBarrels)
+                    {
+                        if (i.GetSpawnedBallType() == colorType)
+                            barrels.Add(i.SpawnPosition());
+                    }
+                    return barrels;
                 case CharacterColorType.Green:
-                    foreach (var i in spawnedBalls)
+                    foreach (var i in _spawnedBarrels)
                     {
                         if (i.GetSpawnedBallType() == colorType)
-                            balls.Add(i.SpawnPosition());
+                            barrels.Add(i.SpawnPosition());
                     }
-                    return balls;
-                case CharacterColorType.Violet:
-                    foreach (var i in spawnedBalls)
-                    {
-                        if (i.GetSpawnedBallType() == colorType)
-                            balls.Add(i.SpawnPosition());
-                    }
-                    return balls;
+                    return barrels;
                 case CharacterColorType.Purple:
-                    foreach (var i in spawnedBalls)
+                    foreach (var i in _spawnedBarrels)
                     {
                         if (i.GetSpawnedBallType() == colorType)
-                            balls.Add(i.SpawnPosition());
+                            barrels.Add(i.SpawnPosition());
                     }
-                    return balls;
+                    return barrels;
                 case CharacterColorType.Red:
-                    foreach (var i in spawnedBalls)
+                    foreach (var i in _spawnedBarrels)
                     {
                         if (i.GetSpawnedBallType() == colorType)
-                            balls.Add(i.SpawnPosition());
+                            barrels.Add(i.SpawnPosition());
                     }
-                    return balls;
+                    return barrels;
             }
             return null;
         }
@@ -94,84 +98,139 @@ namespace BlueStellar.Cor
         private void Start()
         { 
             SetStartPos();
-            BallsPlacement();
+            BarrelsPlacement();
         }
 
         private void Update()
         {
-            ResetBall();
+            ResetBarrels();
         }
 
-        #region GenerateBalls
+        #region GenerateBarrels
 
-        public void RemoveBall(CollectableBarrel collectableBall)
+        public void AddBarrelType(BarrelType ballType)
         {
-            foreach (var i in spawnedBalls)
+            ballTypes.Add(ballType);
+        }
+
+        public void RemoveBarrelType(CharacterColorType type, int number)
+        {
+            if (_spawnedBarrels.Count == 0)
+                return;
+
+            BarrelType barrelType = new BarrelType();
+            foreach (var i in ballTypes)
+            {
+                if (i.type == type)
+                {
+                    barrelType = i;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < number; i++)
+            {
+                int random = Random.Range(0, _spawnedBarrels.Count);
+                if (_spawnedBarrels[random].GetCollectableBall().gameObject != null)
+                {
+                    Destroy(_spawnedBarrels[random].GetCollectableBall().gameObject);
+                    _spawnedBarrels[random].ClearSpawnedBall();
+                    GenerateTypeRemovedBarrel(_spawnedBarrels[random], barrelType);
+                }
+            }
+        }
+
+        public void GenerateRemovedBarrel(SpawnedBarrel spawnedBarrel)
+        {
+            if (ballTypes.Count == 0)
+                return;
+
+            BarrelType ballType = ballTypes[Random.Range(0, ballTypes.Count)];
+            GameObject createdBall = Instantiate(ballType.ballPrefab, spawnedBarrel.SpawnPosition(),
+                ballType.ballPrefab.transform.rotation);
+
+            createdBall.transform.parent = transform;
+            createdBall.transform.position = spawnedBarrel.SpawnPosition();
+            spawnedBarrel.SetNewSpawnedBall(createdBall.GetComponent<CollectableBarrel>());
+            _respawnBarrels.Remove(spawnedBarrel);
+        }
+
+        public void GenerateTypeRemovedBarrel(SpawnedBarrel spawnedBall, BarrelType ballType)
+        {
+            if (ballTypes.Count == 0)
+                return;
+
+            GameObject createdBall = Instantiate(ballType.ballPrefab, spawnedBall.SpawnPosition(),
+                ballType.ballPrefab.transform.rotation);
+
+            createdBall.transform.parent = transform;
+            createdBall.transform.position = spawnedBall.SpawnPosition();
+            spawnedBall.SetNewSpawnedBall(createdBall.GetComponent<CollectableBarrel>());
+            _respawnBarrels.Remove(spawnedBall);
+        }
+
+        public void RemoveCollectableBarrel(CollectableBarrel collectableBall)
+        {
+            foreach (var i in _spawnedBarrels)
             {
                 if (collectableBall == i.GetCollectableBall())
                 {
                     i.ClearSpawnedBall();
-                    respawnBalls.Add(i);
+                    _respawnBarrels.Add(i);
                 }
             }
         }
 
-        public void RemoveSpawnedBall(CharacterColorType _characterColorType)
+        public void RemoveSpawnedBarrel(CharacterColorType _characterColorType)
         {
-            for (int i = 0; i < ballTypes.Count; i++)
+            BarrelType barrelType = new BarrelType();
+
+            foreach(var i in ballTypes)
             {
-                if(ballTypes[i].type == _characterColorType)
+                if(i.type == _characterColorType)
                 {
-                    ballTypes.Remove(ballTypes[i]);
+                    barrelType = i;
+                    break;
                 }
             }
 
-            for (int i = 0; i < spawnedBalls.Count; i++)
+            if (collectableBarrelField != null)
             {
-                if(spawnedBalls[i].GetSpawnedBallType() == _characterColorType)
+                collectableBarrelField.gameObject.SetActive(true);
+                collectableBarrelField.AddBarrelType(barrelType);
+            }
+
+            ballTypes.Remove(barrelType);
+
+            for (int i = 0; i < _spawnedBarrels.Count; i++)
+            {
+                if (_spawnedBarrels[i].GetSpawnedBallType() == _characterColorType)
                 {
-                    if (spawnedBalls[i].GetCollectableBall() != null)
+                    if (_spawnedBarrels[i].GetCollectableBall() != null)
                     {
-                        Destroy(spawnedBalls[i].GetCollectableBall().gameObject);
-                        spawnedBalls[i].ClearSpawnedBall();
-                        if (ballTypes.Count == 0)
-                            return;
-                        respawnBalls.Add(spawnedBalls[i]);
+                        Destroy(_spawnedBarrels[i].GetCollectableBall().gameObject);
+                        _spawnedBarrels[i].ClearSpawnedBall();
+                        if(ballTypes.Count == 0)
+                            _respawnBarrels.Add(_spawnedBarrels[i]);
                     }
                 }
             }
         }
 
-        public void GenerateRemovedBall(SpawnedBall spawnedBall)
-        {
-            if (ballTypes.Count == 0)
-                return;
-
-            BallType ballType = ballTypes[Random.Range(0, ballTypes.Count)];
-            GameObject createdBall = Instantiate(ballType.ballPrefab, spawnedBall.SpawnPosition(),
-                Quaternion.identity);
-
-            createdBall.transform.parent = transform;
-            createdBall.transform.position = spawnedBall.SpawnPosition();
-            spawnedBall.SetNewSpawnedBall(createdBall.GetComponent<CollectableBarrel>());
-            respawnBalls.Remove(spawnedBall);
-        }
-
-        private void ResetBall()
+        private void ResetBarrels()
         {
             timer += Time.deltaTime;
 
             if (timer >= timeToResetBall)
             {
-                if (respawnBalls.Count == 0)
+                if (_respawnBarrels.Count == 0)
                 {
                     timer = 0f;
                     return;
                 }
 
-                GenerateRemovedBall(respawnBalls[0]);
-
                 timer = 0f;
+                GenerateRemovedBarrel(_respawnBarrels[0]);
             }
         }
 
@@ -186,7 +245,7 @@ namespace BlueStellar.Cor
             xPosition = transform.position.x;
         }
 
-        private void BallsPlacement()
+        private void BarrelsPlacement()
         {
             for (int i = 0; i < length; i++)
             {
@@ -203,16 +262,16 @@ namespace BlueStellar.Cor
                     position = new Vector3(xPosition + xOrder, startPoint.y, zPosition);
                 }
 
-                BallType ballType = ballTypes[Random.Range(0, ballTypes.Count)];
+                BarrelType ballType = ballTypes[Random.Range(0, ballTypes.Count)];
 
-                GameObject newCollectableBall = Instantiate(ballType.ballPrefab,
+                GameObject newCollectableBarrel = Instantiate(ballType.ballPrefab,
                  position, ballType.ballPrefab.transform.rotation);
 
-                newCollectableBall.transform.parent = transform;
+                newCollectableBarrel.transform.parent = transform;
 
-                SpawnedBall spawnedBall = new SpawnedBall();
-                spawnedBall.SetSpawnedBall(newCollectableBall.GetComponent<CollectableBarrel>(), position, this);
-                spawnedBalls.Add(spawnedBall);
+                SpawnedBarrel spawnedBarrel = new SpawnedBarrel();
+                spawnedBarrel.SetSpawnedBall(newCollectableBarrel.GetComponent<CollectableBarrel>(), position);
+                _spawnedBarrels.Add(spawnedBarrel);
             }
         }
 

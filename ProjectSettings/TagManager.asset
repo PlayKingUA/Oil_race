@@ -6,17 +6,18 @@ TagManager:
   tags:
   - Character
   - Platform
-  - Gate
   - Barrel
   - TransportField
+  - Ball
+  - Monster
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Character
   - Water
   - UI
-  - Outline
+  - Barrel
   - 
   - 
   - 

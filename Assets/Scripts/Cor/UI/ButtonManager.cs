@@ -13,8 +13,6 @@ namespace BlueStellar.Cor
         public void Continue()
         {
             UIManager.Instance.MoneyScreen(true);
-            UIManager.Instance.RewardScreen(true);
-            UIManager.Instance.BonusScreen(false);
         }
 
         public void RestartLevel()
@@ -26,6 +24,7 @@ namespace BlueStellar.Cor
         public void NextLevel()
         {
             MoneyWallet.Instance.MoneyPlus(100);
+            ArenaSpawner.Instance.SetNext();
             LevelController.Instance.NextLevel();
             SceneLoader(0);
         }

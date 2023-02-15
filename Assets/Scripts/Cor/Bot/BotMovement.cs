@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using BlueStellar.Cor.Transports;
+using BlueStellar.Cor.Characters;
 
 namespace BlueStellar.Cor
 {
@@ -10,7 +12,9 @@ namespace BlueStellar.Cor
     {
         #region Variables
 
-        [SerializeField] Transform[] monsterPoints;
+        [SerializeField] Transform[] monsterPointsStage1;
+        [SerializeField] Transform[] monsterPStage2;
+        [SerializeField] Transform[] mPSgar3;
         [SerializeField] private float range;
         [SerializeField] private float timeToMonster;
         [SerializeField] private float timer;
@@ -26,18 +30,22 @@ namespace BlueStellar.Cor
         [SerializeField] Rigidbody _rb;
         [SerializeField] NavMeshAgent _agent;
         [SerializeField] StackBarrels _stackBalls;
-        CollectableBarrelField _collectableBallsField;
+        [SerializeField] CollectableBarrelField[] _collectableBallsField;
+        [SerializeField] private int indexM;
         Vector3 ball;
+        [SerializeField] Character character;
+        [SerializeField] CharacterAnimations characterAnimations;
+        [SerializeField] Transform ch;
+        [SerializeField] Transform characterPoint;
         public int index;
 
         #endregion
 
         private void Start()
         {
-            _collectableBallsField = GameObject.FindObjectOfType<CollectableBarrelField>();
             isStopMovement = true;
             LevelController.Instance.OnLevelStart.AddListener(Move);
-            LevelController.Instance.OnLevelEnd.AddListener(Stop);
+            LevelController.Instance.OnLevelFailed.AddListener(Stop);
         }
 
         private void Update()
@@ -53,8 +61,18 @@ namespace BlueStellar.Cor
 
                     if (_stackBalls.AmmountBalls() >= random)
                     {
-                        _agent.SetDestination(monsterPoints[indexMonsterPoint].position);
-                
+                        if (indexM == 0)
+                        {
+                            _agent.SetDestination(monsterPointsStage1[indexMonsterPoint].position);
+                        }
+                        if (indexM == 1)
+                        {
+                            _agent.SetDestination(monsterPStage2[indexMonsterPoint].position);
+                        }
+                        if (indexM == 2)
+                        {
+                            _agent.SetDestination(mPSgar3[indexMonsterPoint].position);
+                        }
                         timer = 0f;
                         toMonster = true;
                         return;
@@ -74,9 +92,19 @@ namespace BlueStellar.Cor
 
         #region PlatformMovement
 
+        private void FixedUpdate()
+        {
+            if(points.Count == 0 && !isStopMovement)
+            {
+                SetPoints();
+                NewPoint();
+                UpdateMove();
+            }
+        }
+
         private void SetPoints()
         {
-            points = _collectableBallsField.ListTypeBalls(colorType);
+            points = _collectableBallsField[indexM].ListTypeBarrels(colorType);
         }
 
         private void NewMove()
@@ -88,16 +116,16 @@ namespace BlueStellar.Cor
             }
             else
             {
-                //_characterStatesAnimation.RunAnimation(true);
+                characterAnimations.RunAnimation(1);
             }
         }
 
         private void UpdateMove()
         {
             ball = points[index];
-            if(_agent.enabled)
+            if (_agent.enabled)
                 _agent.SetDestination(ball);
-            //_characterStatesAnimation.RunAnimation(true);
+            characterAnimations.RunAnimation(1);
         }
 
         private void NewPoint()
@@ -118,7 +146,6 @@ namespace BlueStellar.Cor
         public void Stop()
         {
             StopMovement(true);
-        
         }
 
         public void StopMovement(bool isActive)
@@ -140,9 +167,10 @@ namespace BlueStellar.Cor
         {
             _agent.enabled = false;
             _rb.isKinematic = false;
+            StopMovement(true);
             Vector3 pushDirection = new Vector3(transform.position.x - pushTarget.position.x,
                 transform.position.y, transform.position.z - pushTarget.position.z);
-            _rb.AddForce(pushDirection * 2f, ForceMode.Impulse);
+            _rb.AddForce(pushDirection * 5f, ForceMode.Impulse);
         }
 
         public void RestartMovement()
@@ -153,31 +181,109 @@ namespace BlueStellar.Cor
             UpdateMove();
         }
 
-        public void MonsterReturnMove()
+        public void ReturnMove()
         {
-            _agent.enabled = true;
-            isStopMovement = false;
+            StopMovement(false);
             NewPoint();
             UpdateMove();
+        }
+
+        public void ToTransport(Transform point, bool isParent)
+        {
+            StopMovement(true);
+            transform.DOMove(new Vector3(point.position.x,
+                transform.position.y, point.position.z), 0.1f).OnComplete(() => SetPos());
+            if (isParent)
+            {
+                indexM++;
+                transform.transform.parent = point;
+            }
+            if (!isParent)
+                transform.transform.parent = null;
+        }
+
+        private void SetPos()
+        {
+            ch.transform.position = characterPoint.position;
+            ch.transform.rotation = characterPoint.rotation;
+            SetPoints();
+            StopMovement(false);
+            NewPoint();
+            UpdateMove();
+            toMonster = false;
         }
 
         #region BotCollisions
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.tag == "MonsterFields")
+            if (other.gameObject.tag == "TransportField")
             {
                 if (toMonster)
                 {
                     if (inMonster)
                         return;
 
-                    ///CollectableMonster ballsMonster = other.GetComponentInParent<CollectableMonster>();
-                    //if (ballsMonster.IsDeactivetedMonster())
-                    //{
-                    //    indexMonsterPoint++;
-                    //    inMonster = true;
-                    //}
+                    if(other.GetComponentInParent<Transport>() == null)
+                    {
+                        indexMonsterPoint++;
+                        if (indexM == 0)
+                        {
+                            if (indexMonsterPoint >= monsterPointsStage1.Length)
+                            {
+                                characterAnimations.RunAnimation(0);
+                                StopMovement(true);
+                            }
+                        }
+                        if (indexM == 1)
+                        {
+                            if (indexMonsterPoint >= monsterPStage2.Length)
+                            {
+                                characterAnimations.RunAnimation(0);
+                                StopMovement(true);
+                            }
+                        }
+                        if (indexM == 2)
+                        {
+                            if (indexMonsterPoint >= mPSgar3.Length)
+                            {
+                                characterAnimations.RunAnimation(0);
+                                StopMovement(true);
+                            }
+                        }
+                        return;
+                    }
+
+                    Transport transport = other.GetComponentInParent<Transport>();
+                    if (transport.IsFullTransport())
+                    {
+                        indexMonsterPoint++;
+                        if (indexM == 0)
+                        {
+                            if (indexMonsterPoint >= monsterPointsStage1.Length)
+                            {
+                                characterAnimations.RunAnimation(0);
+                                StopMovement(true);
+                            }
+                        }
+                        if (indexM == 1)
+                        {
+                            if (indexMonsterPoint >= monsterPStage2.Length)
+                            {
+                                characterAnimations.RunAnimation(0);
+                                StopMovement(true);
+                            }
+                        }
+                        if (indexM == 2)
+                        {
+                            if (indexMonsterPoint >= mPSgar3.Length)
+                            {
+                                characterAnimations.RunAnimation(0);
+                                StopMovement(true);
+                            }
+                        }
+                        return;
+                    }
 
                     points.Clear();
                     SetPoints();

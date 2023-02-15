@@ -18,12 +18,10 @@ namespace BlueStellar.Cor
 
         #region Variables
 
-        [SerializeField] GameObject characterStateCam;
-        [SerializeField] GameObject monsterStateCam;
-        [SerializeField] GameObject jumpStateCam;
-        [SerializeField] GameObject finishCam;
-        [SerializeField] GameObject skinCam;
-        [SerializeField] ParticleSystem effect;
+        [SerializeField] CinemachineVirtualCamera playerCam;
+        [SerializeField] CinemachineVirtualCamera hightCam;
+        [SerializeField] CinemachineVirtualCamera transportCam;
+        [SerializeField] CinemachineVirtualCamera finishcam;
 
         Transform player;
 
@@ -34,39 +32,38 @@ namespace BlueStellar.Cor
             SetTargetCameras();
         }
 
-        public void CharacterCam(bool isActive)
+        public void PlayerCamActive(bool isActive)
         {
-            characterStateCam.SetActive(isActive);
+            playerCam.gameObject.SetActive(isActive);
         }
 
-        public void ChangeMonsterCam(bool isActive)
+        public void HightCamActive(bool isActive)
         {
-            monsterStateCam.SetActive(true);
+            hightCam.gameObject.SetActive(isActive);
         }
 
-        public void JumpStateCam(bool isActive)
+        public void TransportCamActive(Transform point, bool isActive)
         {
-            jumpStateCam.SetActive(true);
+            transportCam.gameObject.SetActive(isActive);
+            if (isActive)
+            {
+                transportCam.Follow = point;
+                transportCam.LookAt = point;
+            }
         }
 
-        public void SkinCam(Transform targetSkin, bool isActive)
+        public void FinishCamActive(bool isAcitve)
         {
-            skinCam.GetComponent<CinemachineVirtualCamera>().Follow = targetSkin;
-            skinCam.GetComponent<CinemachineVirtualCamera>().LookAt = targetSkin;
-            skinCam.SetActive(isActive);
+            finishcam.gameObject.SetActive(isAcitve);
         }
 
         private void SetTargetCameras()
         {
             player = GameObject.FindObjectOfType<PlayerMovement>().transform;
-            characterStateCam.GetComponent<CinemachineVirtualCamera>().Follow = player;
-            characterStateCam.GetComponent<CinemachineVirtualCamera>().LookAt = player;
-            monsterStateCam.GetComponent<CinemachineVirtualCamera>().Follow = player;
-            monsterStateCam.GetComponent<CinemachineVirtualCamera>().LookAt = player;
-            jumpStateCam.GetComponent<CinemachineVirtualCamera>().Follow = player;
-            jumpStateCam.GetComponent<CinemachineVirtualCamera>().LookAt = player;
-            finishCam.GetComponent<CinemachineVirtualCamera>().Follow = player;
-            finishCam.GetComponent<CinemachineVirtualCamera>().LookAt = player;
+            playerCam.Follow = player;
+            playerCam.LookAt = player;
+            finishcam.Follow = player;
+            finishcam.LookAt = player;
         }
     }
 }

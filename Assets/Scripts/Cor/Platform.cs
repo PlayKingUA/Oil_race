@@ -8,7 +8,7 @@ namespace BlueStellar.Cor
     {
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Ball"))
+            if (collision.gameObject.CompareTag("Barrel"))
             {
                 if(collision.gameObject.GetComponent<CollectableBarrel>() != null)
                 {

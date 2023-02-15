@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BlueStellar.Cor
 {
-    public class SpawnedBall
+    public class SpawnedBarrel
     {
         CollectableBarrel _collectableBall;
         CharacterColorType _type;
@@ -23,7 +23,12 @@ namespace BlueStellar.Cor
             return _spawnPosition;
         }
 
-        public void SetSpawnedBall(CollectableBarrel ball, Vector3 pos, CollectableBarrelField collectableBallsField)
+        public Vector3 AddSpawnPosition(Vector3 pos)
+        {
+            return _spawnPosition = pos;
+        }
+
+        public void SetSpawnedBall(CollectableBarrel ball, Vector3 pos)
         {
             _collectableBall = ball;
             _type = _collectableBall.Type();
