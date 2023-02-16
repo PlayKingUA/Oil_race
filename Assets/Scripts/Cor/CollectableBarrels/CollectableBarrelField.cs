@@ -133,7 +133,7 @@ namespace BlueStellar.Cor
             for (int i = 0; i < number; i++)
             {
                 int random = Random.Range(0, _spawnedBarrels.Count);
-                if (_spawnedBarrels[random].GetCollectableBall().gameObject != null)
+                if (_spawnedBarrels[random].GetCollectableBall() != null)
                 {
                     Destroy(_spawnedBarrels[random].GetCollectableBall().gameObject);
                     _spawnedBarrels[random].ClearSpawnedBall();
@@ -270,17 +270,26 @@ namespace BlueStellar.Cor
                     position = new Vector3(xPosition + xOrder, startPoint.y, zPosition);
                 }
 
-                BarrelType ballType = ballTypes[Random.Range(0, ballTypes.Count)];
+                if (isFirstField)
+                {
+                    BarrelType ballType = ballTypes[Random.Range(0, ballTypes.Count)];
 
-                GameObject newCollectableBarrel = Instantiate(ballType.ballPrefab,
-                 position, ballType.ballPrefab.transform.rotation);
+                    GameObject newCollectableBarrel = Instantiate(ballType.ballPrefab,
+                     position, ballType.ballPrefab.transform.rotation);
 
-                newCollectableBarrel.transform.parent = transform;
+                    newCollectableBarrel.transform.parent = transform;
 
-                SpawnedBarrel spawnedBarrel = new SpawnedBarrel();
-                spawnedBarrel.SetSpawnedBallPosition(position);
-                spawnedBarrel.SetSpawnedBall(newCollectableBarrel.GetComponent<CollectableBarrel>());
-                _spawnedBarrels.Add(spawnedBarrel);
+                    SpawnedBarrel spawnedBarrel = new SpawnedBarrel();
+                    spawnedBarrel.SetSpawnedBallPosition(position);
+                    spawnedBarrel.SetSpawnedBall(newCollectableBarrel.GetComponent<CollectableBarrel>());
+                    _spawnedBarrels.Add(spawnedBarrel);
+                }
+                if (!isFirstField)
+                {
+                    SpawnedBarrel spawnedBarrel = new SpawnedBarrel();
+                    spawnedBarrel.SetSpawnedBallPosition(position);
+                    _spawnedBarrels.Add(spawnedBarrel);
+                }
             }
         }
 
