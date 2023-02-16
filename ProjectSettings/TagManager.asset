@@ -8,8 +8,8 @@ TagManager:
   - Platform
   - Barrel
   - TransportField
-  - Ball
-  - Monster
+  - Gate
+  - Balls
   layers:
   - Default
   - TransparentFX

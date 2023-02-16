@@ -6,7 +6,7 @@ namespace BlueStellar.Cor
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Ball"))
+            if (other.CompareTag("Barrel"))
             {
                 Destroy(other.gameObject);
             }

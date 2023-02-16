@@ -250,7 +250,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   characterAnimations: {fileID: 4159277620599521609}
-  _stackBalls: {fileID: 4159277620599521608}
+  _stackBarrels: {fileID: 4159277620599521608}
   playerMovement: {fileID: 0}
   botMovement: {fileID: 4159277621393632788}
   effectLand: {fileID: 0}

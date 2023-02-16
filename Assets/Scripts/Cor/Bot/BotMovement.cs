@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using BlueStellar.Cor.Helpers;
 using BlueStellar.Cor.Transports;
 using BlueStellar.Cor.Characters;
 

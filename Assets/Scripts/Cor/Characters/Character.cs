@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using BlueStellar.Cor.Helpers;
 using BlueStellar.Cor.Transports;
 
 namespace BlueStellar.Cor.Characters
@@ -26,7 +27,7 @@ namespace BlueStellar.Cor.Characters
 
         [SerializeField] CollectableBarrelField[] collectableBarrelField;
         [SerializeField] CharacterAnimations characterAnimations;
-        [SerializeField] StackBarrels _stackBalls;
+        [SerializeField] StackBarrels _stackBarrels;
         [SerializeField] PlayerMovement playerMovement;
         [SerializeField] BotMovement botMovement;
         [SerializeField] ParticleSystem effectLand;
@@ -200,7 +201,7 @@ namespace BlueStellar.Cor.Characters
                 botMovement.PushBot(m);
             }
             effectDamage.Play();
-            _stackBalls.DestroyedStack();
+            _stackBarrels.DestroyedStack();
             characterAnimations.KnockAnimation();
             isKnock = true;
             StartCoroutine(IE_Return());
@@ -272,9 +273,10 @@ namespace BlueStellar.Cor.Characters
                 if (!_ball.IsTrueCharacter(_characterColorType))
                     return;
 
-                _stackBalls.AddCollectableBall(_ball);
+                _stackBarrels.AddCollectableBall(_ball);
                 if (isPlayer)
                 {
+                    SoundManager.Instance.SoundClaimActive();
                     VibrationController.Instance.ClaimVibration();
                 }
             }
@@ -287,13 +289,16 @@ namespace BlueStellar.Cor.Characters
                 if (isDeactiveCharacter)
                     return;
 
-                if (_stackBalls.AmmountBalls() == stackBalls.AmmountBalls())
+                if (_stackBarrels.AmmountBalls() == stackBalls.AmmountBalls())
                     return;
 
                 if (isPlayer)
+                {
+                    SoundManager.Instance.SoundHitActive();
                     VibrationController.Instance.KnockVibration();
+                }
 
-                if (_stackBalls.AmmountBalls() >= stackBalls.AmmountBalls())
+                if (_stackBarrels.AmmountBalls() >= stackBalls.AmmountBalls())
                 {
                     character.KnockCharacter(transform);
                     return;
@@ -302,16 +307,20 @@ namespace BlueStellar.Cor.Characters
                 KnockCharacter(other.transform);
             }
 
+            if(other.gameObject.tag == "Gate")
+            {
+                other.GetComponent<Gate>().ActivetedBonus(_stackBarrels, _characterColorType);
+            }
+
             if (other.gameObject.tag == "Finish")
             {
                 if (isFinish)
                     return;
 
-              
                 if (isPlayer) 
                 {
                     other.GetComponent<Finish>().Active();
-                    _stackBalls.ClearStack();
+                    _stackBarrels.ClearStack();
                     playerMovement.LockControll(true);
                     playerMovement.MoveToFinish();
                     CameraController.Instance.PlayerCamActive(false);
@@ -347,9 +356,9 @@ namespace BlueStellar.Cor.Characters
                     return;
                 }
 
-                _stackBalls.UnstackCollectableBarrel(_transport);
+                _stackBarrels.UnstackCollectableBarrel(_transport);
 
-                if (_stackBalls.AmmountBalls() == 0)
+                if (_stackBarrels.AmmountBalls() == 0)
                     return;
 
                 if (isPlayer)

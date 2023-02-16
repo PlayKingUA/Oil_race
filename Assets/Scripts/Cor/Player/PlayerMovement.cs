@@ -149,7 +149,5 @@ namespace BlueStellar.Cor
                 characterAnimations.RunAnimation(0);
             }
         }
-
-        public float speed;
     }
 }

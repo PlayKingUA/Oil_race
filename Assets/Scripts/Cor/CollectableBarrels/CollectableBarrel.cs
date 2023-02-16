@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using BlueStellar.Cor.Helpers;
 using BlueStellar.Cor.Transports;
 
 namespace BlueStellar.Cor
@@ -61,7 +62,8 @@ namespace BlueStellar.Cor
         {
             cantStack = true;
             _rb.isKinematic = true;
-            _collectableBarrelField.RemoveCollectableBarrel(this);
+            if(_collectableBarrelField != null)
+                _collectableBarrelField.RemoveCollectableBarrel(this);
             transform.DOPunchScale(new Vector3(0.5f, 0.5f, 0.5f), 0.15f, 1);
         }
        
