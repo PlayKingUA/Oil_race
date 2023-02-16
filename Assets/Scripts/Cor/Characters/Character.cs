@@ -36,6 +36,7 @@ namespace BlueStellar.Cor.Characters
         [SerializeField] private bool isDeactiveCharacter;
         [SerializeField] private bool isKnock;
         [SerializeField] private bool isTransport;
+        [SerializeField] private bool isFinish;
 
         private TransportType _transportType;
         private Transport _transport;
@@ -330,8 +331,6 @@ namespace BlueStellar.Cor.Characters
                 isFinish = true;
             }
         }
-
-        private bool isFinish;
 
         private void OnTriggerStay(Collider other)
         {

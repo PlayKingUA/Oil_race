@@ -39,11 +39,11 @@ namespace BlueStellar.Cor
             Load();
             transports = levelsArena[indexLevel].prefabsTransports;
             roads = levelsArena[indexLevel].prefabsRoads;
-            for (int i = 0; i < roads.Count; i++)
-            {
-                GameObject newRoad = Instantiate(roads[i], pointsRoads[i].position, pointsRoads[i].rotation);
-                newRoad.transform.parent = pointsRoads[i];
-            }
+            //for (int i = 0; i < roads.Count; i++)
+            //{
+            //    GameObject newRoad = Instantiate(roads[i], pointsRoads[i].position, pointsRoads[i].rotation);
+            //    newRoad.transform.parent = pointsRoads[i];
+            //}
 
             for (int i = 0; i < transports.Count; i++)
             {

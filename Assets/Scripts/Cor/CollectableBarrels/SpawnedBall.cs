@@ -29,11 +29,15 @@ namespace BlueStellar.Cor
             return _spawnPosition = pos;
         }
 
-        public void SetSpawnedBall(CollectableBarrel ball, Vector3 pos)
+        public void SetSpawnedBallPosition(Vector3 pos)
+        {
+            _spawnPosition = pos;
+        }
+
+        public void SetSpawnedBall(CollectableBarrel ball)
         {
             _collectableBall = ball;
             _type = _collectableBall.Type();
-            _spawnPosition = pos;
         }
 
         public void SetNewSpawnedBall(CollectableBarrel collectableBall)

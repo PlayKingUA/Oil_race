@@ -36,6 +36,7 @@ namespace BlueStellar.Cor
         [Space]
         [Header("NextFields")]
         [SerializeField] CollectableBarrelField collectableBarrelField;
+        [SerializeField] private bool isFirstField;
 
         private Vector3 startPoint;
         private Vector3 position;
@@ -137,6 +138,12 @@ namespace BlueStellar.Cor
                     Destroy(_spawnedBarrels[random].GetCollectableBall().gameObject);
                     _spawnedBarrels[random].ClearSpawnedBall();
                     GenerateTypeRemovedBarrel(_spawnedBarrels[random], barrelType);
+                }
+
+                if (_spawnedBarrels[random].GetCollectableBall() == null)
+                {
+                    GenerateTypeRemovedBarrel(_spawnedBarrels[random], barrelType);
+                    Debug.Log("isNull");
                 }
             }
         }
@@ -271,7 +278,8 @@ namespace BlueStellar.Cor
                 newCollectableBarrel.transform.parent = transform;
 
                 SpawnedBarrel spawnedBarrel = new SpawnedBarrel();
-                spawnedBarrel.SetSpawnedBall(newCollectableBarrel.GetComponent<CollectableBarrel>(), position);
+                spawnedBarrel.SetSpawnedBallPosition(position);
+                spawnedBarrel.SetSpawnedBall(newCollectableBarrel.GetComponent<CollectableBarrel>());
                 _spawnedBarrels.Add(spawnedBarrel);
             }
         }

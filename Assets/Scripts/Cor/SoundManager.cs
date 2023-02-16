@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BlueStellar.Cor
@@ -23,15 +21,28 @@ namespace BlueStellar.Cor
         [SerializeField] AudioSource soundClaim;
         [SerializeField] AudioSource soundHit;
 
+        private bool isOffSound;
+
         #endregion
+
+        public bool IsOffSound()
+        {
+            return isOffSound;
+        }
 
         public void SoundClaimActive()
         {
+            if (isOffSound)
+                return;
+
             soundClaim.Play();
         }
 
         public void SoundHitActive()
         {
+            if (isOffSound)
+                return;
+
             soundHit.Play();
         }
     }
