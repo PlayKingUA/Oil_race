@@ -58,15 +58,23 @@ namespace BlueStellar.Cor
 
             if (character.IsPlayer())
             {
-                if(currencyBalls.Count < 20)
+                if(currencyBalls.Count < 18)
                 {
                     CameraController.Instance.PlayerCamActive(true);
                     CameraController.Instance.HightCamActive(false);
+                    CameraController.Instance.VeryHightCamActive(false);
                 }
-                if (currencyBalls.Count > 20)
+                if (currencyBalls.Count > 18 && currencyBalls.Count < 29)
                 {
                     CameraController.Instance.PlayerCamActive(false);
                     CameraController.Instance.HightCamActive(true);
+                    CameraController.Instance.VeryHightCamActive(false);
+                }
+                if(currencyBalls.Count > 29)
+                {
+                    CameraController.Instance.PlayerCamActive(false);
+                    CameraController.Instance.HightCamActive(false);
+                    CameraController.Instance.VeryHightCamActive(true);
                 }
             }
 

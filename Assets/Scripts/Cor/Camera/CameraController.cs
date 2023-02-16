@@ -20,6 +20,7 @@ namespace BlueStellar.Cor
 
         [SerializeField] CinemachineVirtualCamera playerCam;
         [SerializeField] CinemachineVirtualCamera hightCam;
+        [SerializeField] CinemachineVirtualCamera veryHightCam;
         [SerializeField] CinemachineVirtualCamera transportCam;
         [SerializeField] CinemachineVirtualCamera finishcam;
 
@@ -40,6 +41,11 @@ namespace BlueStellar.Cor
         public void HightCamActive(bool isActive)
         {
             hightCam.gameObject.SetActive(isActive);
+        }
+
+        public void VeryHightCamActive(bool isActive)
+        {
+            veryHightCam.gameObject.SetActive(isActive);
         }
 
         public void TransportCamActive(Transform point, bool isActive)

@@ -27,7 +27,19 @@ namespace BlueStellar.Cor
 
         public bool IsOffSound()
         {
+            Load();
             return isOffSound;
+        }
+
+        private void Start()
+        {
+            Load();
+        }
+
+        public void SoundOffAndOn(bool isOff)
+        {
+            isOffSound = isOff;
+            Save();
         }
 
         public void SoundClaimActive()
@@ -45,5 +57,19 @@ namespace BlueStellar.Cor
 
             soundHit.Play();
         }
+
+        #region Load&Save
+
+        private void Load()
+        {
+            isOffSound = ES3.Load("isOffSound", isOffSound);
+        }
+
+        private void Save()
+        {
+            ES3.Save("isOffSound", isOffSound);
+        }
+
+        #endregion
     }
 }

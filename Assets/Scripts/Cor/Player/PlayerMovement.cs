@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 using BlueStellar.Cor.Characters;
@@ -21,6 +22,8 @@ namespace BlueStellar.Cor
         [SerializeField] Transform characterPoint;
         [SerializeField] Character ch;
 
+        private bool isFinish;
+
         Vector3 gravityVelocity;
         Transform _transformPlayer;
         CharacterController _characterController;
@@ -38,20 +41,7 @@ namespace BlueStellar.Cor
 
         private void FixedUpdate()
         {
-            if (!isFinish)
-                return;
-
-            if(_transformPlayer.position == finishPoint.position)
-            {
-                LevelController.Instance.LevelCompleted();
-                isFinish = true;
-                return;
-            }
-
-            _transformPlayer.position = Vector3.MoveTowards(_transformPlayer.position, finishPoint.position, speedFinish);
-            Vector3 look = finishPoint.position;
-            look.y = _transformPlayer.position.y;
-            _transformPlayer.DOLookAt(look, 0.3f);
+            FinishMovement();
         }
 
         private void Update()
@@ -79,13 +69,18 @@ namespace BlueStellar.Cor
 
         public void MovementToTarget(Transform target, bool isParent)
         {
-            isK = isParent;
             _transformPlayer.DOMove(new Vector3(target.position.x,
                 _transformPlayer.position.y, target.position.z), 0.1f).OnComplete(() => SetPos());
-            if(isParent)
+            if (isParent)
+            {
                 _transformPlayer.transform.parent = target;
-            if (!isParent) 
+                LockControll(true);
+            }
+            if (!isParent)
+            {
                 _transformPlayer.transform.parent = null;
+                StartCoroutine(IE_ReturnMovement());
+            }
         }
 
         public void MoveToFinish()
@@ -95,21 +90,28 @@ namespace BlueStellar.Cor
             characterAnimations.RunAnimation(1);
         }
 
-        private bool isFinish;
-        private bool isK;
-
-        public void PushPlayer(Transform dir)
-        {
-           // Vector3 pushDirection = new Vector3(transform.position.x - dir.position.x,
-             //   transform.position.y, transform.position.z - dir.position.z);
-            //_transformPlayer.DOJump(pushDirection, 1f, 1, 0.5f);
-        }
-
         private void SetPos()
         {
             ch.transform.position = characterPoint.position;
             ch.transform.rotation = characterPoint.rotation;
-            LockControll(isK);
+        }
+
+        private void FinishMovement()
+        {
+            if (!isFinish)
+                return;
+
+            if (_transformPlayer.position == finishPoint.position)
+            {
+                LevelController.Instance.LevelCompleted();
+                isFinish = true;
+                return;
+            }
+
+            _transformPlayer.position = Vector3.MoveTowards(_transformPlayer.position, finishPoint.position, speedFinish);
+            Vector3 look = finishPoint.position;
+            look.y = _transformPlayer.position.y;
+            _transformPlayer.DOLookAt(look, 0.3f);
         }
 
         private void MovementControll()
@@ -148,6 +150,13 @@ namespace BlueStellar.Cor
             {
                 characterAnimations.RunAnimation(0);
             }
+        }
+
+        private IEnumerator IE_ReturnMovement()
+        {
+            yield return new WaitForSeconds(2f);
+
+            LockControll(false);
         }
     }
 }

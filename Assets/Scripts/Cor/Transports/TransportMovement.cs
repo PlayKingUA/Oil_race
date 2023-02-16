@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 namespace BlueStellar.Cor.Transports
 {
@@ -12,7 +13,15 @@ namespace BlueStellar.Cor.Transports
         [SerializeField] private float speed;
         [SerializeField] private bool canMovement;
 
+        Vector3 movePos;
+
         #endregion
+
+        private void Start()
+        {
+            movePos = transform.position;
+            movePos.z = transform.position.z + 70f;
+        }
 
         private void FixedUpdate()
         {
@@ -29,15 +38,17 @@ namespace BlueStellar.Cor.Transports
             if (!canMovement)
                 return;
 
-            if (transform.position == _target.position)
+            speed += 0.007f;
+            transform.position = Vector3.MoveTowards(transform.position, movePos, speed);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.tag == "Stop")
             {
                 _transport.StopTransport();
                 ActiveMovement(false);
-                return;
             }
-
-            speed += 0.007f;
-            transform.position = Vector3.MoveTowards(transform.position, _target.position, speed);
         }
     }
 }

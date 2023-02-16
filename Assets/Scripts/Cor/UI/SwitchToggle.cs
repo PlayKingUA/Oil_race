@@ -6,6 +6,9 @@ namespace BlueStellar.Cor
 {
     public class SwitchToggle : MonoBehaviour
     {
+        #region Variables
+
+        [Header("ToggleImg")]
         [SerializeField] RectTransform uiHandleRectTransform;
         [SerializeField] Image bgImg;
         [SerializeField] Image handleImg;
@@ -14,9 +17,20 @@ namespace BlueStellar.Cor
         [SerializeField] Sprite offBg;
         [SerializeField] Sprite offImg;
         [SerializeField] Toggle toggle;
+
+        [Space]
+        [Header("VibrationToggle")]
         [SerializeField] VibrationController vibrationController;
+        [SerializeField] private bool isVibrationToggle;
+
+        [Space]
+        [Header("SoundToggle")]
+        [SerializeField] SoundManager soundManager;
+        [SerializeField] private bool isSoundToggle;
 
         Vector2 handlePosition;
+
+        #endregion
 
         private void Start()
         {
@@ -24,8 +38,18 @@ namespace BlueStellar.Cor
 
             toggle.onValueChanged.AddListener(OnSwitch);
 
-            if (!vibrationController.ISOffVibration())
-                toggle.isOn = true;
+            if (isVibrationToggle)
+            {
+                if (!vibrationController.ISOffVibration())
+                    toggle.isOn = true;
+            }
+
+            if (isSoundToggle)
+            {
+                if (!soundManager.IsOffSound())
+                    toggle.isOn = true;
+            }
+
             if (toggle.isOn)
                 OnSwitch(true);
         }
@@ -38,13 +62,15 @@ namespace BlueStellar.Cor
             {
                 bgImg.sprite = onBg;
                 handleImg.sprite = onImg;
-                vibrationController.VibrationOffAndOn(false);
+                if(isVibrationToggle) vibrationController.VibrationOffAndOn(false);
+                if (isSoundToggle) soundManager.SoundOffAndOn(false);
                 return;
             }
 
             bgImg.sprite = offBg;
             handleImg.sprite = offImg;
-            vibrationController.VibrationOffAndOn(true);
+            if (isVibrationToggle) vibrationController.VibrationOffAndOn(true);
+            if (isSoundToggle) soundManager.SoundOffAndOn(true);
         }
     }
 }

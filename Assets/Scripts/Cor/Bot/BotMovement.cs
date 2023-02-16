@@ -20,7 +20,7 @@ namespace BlueStellar.Cor
         [SerializeField] private float timeToMonster;
         [SerializeField] private float timer;
         [SerializeField] private bool isStopMovement;
-        [SerializeField] private bool toMonster;
+        [SerializeField] private bool toTransport;
         [SerializeField] CharacterColorType colorType;
         [SerializeField] List<Vector3> points = new List<Vector3>();
         [SerializeField] int min;
@@ -54,7 +54,7 @@ namespace BlueStellar.Cor
             if (isStopMovement)
                 return;
 
-            if (!toMonster)
+            if (!toTransport)
             {
                 if (timer >= timeToMonster)
                 {
@@ -75,7 +75,7 @@ namespace BlueStellar.Cor
                             _agent.SetDestination(mPSgar3[indexMonsterPoint].position);
                         }
                         timer = 0f;
-                        toMonster = true;
+                        toTransport = true;
                         return;
                     }
 
@@ -83,7 +83,7 @@ namespace BlueStellar.Cor
                 }
             }
 
-            if (toMonster)
+            if (toTransport)
                 return;
 
             timer += Time.deltaTime;
@@ -161,7 +161,7 @@ namespace BlueStellar.Cor
             _rb.isKinematic = true;
             isStopMovement = false;
             _agent.enabled = true;
-            toMonster = false;
+            toTransport = false;
         }
 
         public void PushBot(Transform pushTarget)
@@ -211,7 +211,7 @@ namespace BlueStellar.Cor
             StopMovement(false);
             NewPoint();
             UpdateMove();
-            toMonster = false;
+            toTransport = false;
         }
 
         #region BotCollisions
@@ -220,14 +220,15 @@ namespace BlueStellar.Cor
         {
             if (other.gameObject.tag == "TransportField")
             {
-                if (toMonster)
+                if (toTransport)
                 {
                     if (inMonster)
                         return;
 
-                    if(other.GetComponentInParent<Transport>() == null)
+                    indexMonsterPoint++;
+
+                    if (other.GetComponentInParent<Transport>() == null)
                     {
-                        indexMonsterPoint++;
                         if (indexM == 0)
                         {
                             if (indexMonsterPoint >= monsterPointsStage1.Length)
@@ -290,7 +291,7 @@ namespace BlueStellar.Cor
                     SetPoints();
                     NewPoint();
                     UpdateMove();
-                    toMonster = false;
+                    toTransport = false;
                 }
             }
         }

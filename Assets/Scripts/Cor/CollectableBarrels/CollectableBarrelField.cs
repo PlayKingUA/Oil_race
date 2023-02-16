@@ -143,7 +143,6 @@ namespace BlueStellar.Cor
                 if (_spawnedBarrels[random].GetCollectableBall() == null)
                 {
                     GenerateTypeRemovedBarrel(_spawnedBarrels[random], barrelType);
-                    Debug.Log("isNull");
                 }
             }
         }

@@ -9,7 +9,7 @@ TagManager:
   - Barrel
   - TransportField
   - Gate
-  - Balls
+  - Stop
   layers:
   - Default
   - TransparentFX

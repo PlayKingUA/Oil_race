@@ -441,7 +441,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   characterAnimations: {fileID: 4233619008701592464}
-  _stackBalls: {fileID: 4233619008701592471}
+  _stackBarrels: {fileID: 4233619008701592471}
   playerMovement: {fileID: 8704299346495859623}
   botMovement: {fileID: 0}
   effectLand: {fileID: 8418384009632573252}
@@ -450,6 +450,7 @@ MonoBehaviour:
   isDeactiveCharacter: 0
   isKnock: 0
   isTransport: 0
+  isFinish: 0
 --- !u!114 &4233619008701592464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,7 +1515,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8704299346495925080}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.93, z: -6.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1588,7 +1589,6 @@ MonoBehaviour:
   characterAnimations: {fileID: 4233619008701592464}
   characterPoint: {fileID: 5183843243329646832}
   ch: {fileID: 4233619008701592468}
-  speed: 0
 --- !u!114 &8067048666480592659
 MonoBehaviour:
   m_ObjectHideFlags: 0

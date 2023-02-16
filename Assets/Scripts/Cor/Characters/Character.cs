@@ -195,7 +195,6 @@ namespace BlueStellar.Cor.Characters
             if (isPlayer)
             {
                 playerMovement.LockControll(true);
-                playerMovement.PushPlayer(m);
             }
             if (!isPlayer)
             {
@@ -326,6 +325,7 @@ namespace BlueStellar.Cor.Characters
                     playerMovement.MoveToFinish();
                     CameraController.Instance.PlayerCamActive(false);
                     CameraController.Instance.HightCamActive(false);
+                    CameraController.Instance.VeryHightCamActive(false);
                     CameraController.Instance.FinishCamActive(true);
                 }
                 isFinish = true;
@@ -338,6 +338,11 @@ namespace BlueStellar.Cor.Characters
             {
                 if (isTransport)
                     return;
+
+                if(other.GetComponentInParent<Transport>() == null)
+                {
+                    return;
+                }
 
                 _transport = other.GetComponentInParent<Transport>();
 
