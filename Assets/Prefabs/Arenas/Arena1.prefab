@@ -438,6 +438,7 @@ MonoBehaviour:
   timer: 0
   collectableBarrelField: {fileID: 7746240648864349846}
   isFirstField: 1
+  testSum: 0
 --- !u!1 &6105608967907778047
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,10 +1049,11 @@ MonoBehaviour:
   xPosition: 0
   zPosition: 0
   form: 1.3
-  timeToResetBall: 0.8
+  timeToResetBall: 1.2
   timer: 0
   collectableBarrelField: {fileID: 7746240648864349846}
   isFirstField: 0
+  testSum: 0
 --- !u!1 &7746240648240730496
 GameObject:
   m_ObjectHideFlags: 0
@@ -2426,10 +2428,11 @@ MonoBehaviour:
   xPosition: 0
   zPosition: 0
   form: 1.3
-  timeToResetBall: 0.5
+  timeToResetBall: 0.9
   timer: 0
   collectableBarrelField: {fileID: 7746240648190892227}
   isFirstField: 0
+  testSum: 0
 --- !u!1 &7746240648875030355
 GameObject:
   m_ObjectHideFlags: 0

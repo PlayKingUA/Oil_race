@@ -2201,35 +2201,35 @@ MonoBehaviour:
     matFullTransport: {fileID: 2100000, guid: 2ca9bc25a423fe44b8923c2585498cbe, type: 2}
     _liquidVolume: {fileID: 4195181674581671776}
     maxProgressValue: 1
-    progress: 0.028
+    progress: 0.035
   - _colorType: 2
     debug: {fileID: 128687845939736534}
     _transportMesh: {fileID: 238569420249335167}
     matFullTransport: {fileID: 2100000, guid: 2ca9bc25a423fe44b8923c2585498cbe, type: 2}
     _liquidVolume: {fileID: 2611997386133968245}
     maxProgressValue: 1
-    progress: 0.028
+    progress: 0.035
   - _colorType: 3
     debug: {fileID: 324619365538166417}
     _transportMesh: {fileID: 1299518669115130998}
     matFullTransport: {fileID: 2100000, guid: 6b4eeaae912b4704a83c5a02c6c0d059, type: 2}
     _liquidVolume: {fileID: 419059515710691933}
     maxProgressValue: 1
-    progress: 0.028
+    progress: 0.035
   - _colorType: 4
     debug: {fileID: 7034006062988873327}
     _transportMesh: {fileID: 1153502283609289326}
     matFullTransport: {fileID: 2100000, guid: 6b4eeaae912b4704a83c5a02c6c0d059, type: 2}
     _liquidVolume: {fileID: 3153431612163430205}
     maxProgressValue: 1
-    progress: 0.028
+    progress: 0.035
   - _colorType: 5
     debug: {fileID: 1877084910689302074}
     _transportMesh: {fileID: 6909183932496705422}
     matFullTransport: {fileID: 2100000, guid: 6b4eeaae912b4704a83c5a02c6c0d059, type: 2}
     _liquidVolume: {fileID: 2144806597102059341}
     maxProgressValue: 1
-    progress: 0.028
+    progress: 0.035
   transperentBody: {fileID: 6212130292869995308}
   details:
   - {fileID: 2591516935357968115}

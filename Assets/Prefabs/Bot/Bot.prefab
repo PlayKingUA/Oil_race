@@ -879,7 +879,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5.5
+  m_Speed: 5.9
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 270
@@ -913,15 +913,15 @@ MonoBehaviour:
   - {fileID: 0}
   mPSgar3:
   - {fileID: 0}
-  range: 20
-  timeToMonster: 8
+  timeToMonster: 5
   timer: 0
   isStopMovement: 0
-  toMonster: 0
+  toTransport: 0
   colorType: 2
   points: []
-  min: 9
-  max: 18
+  min: 5
+  max: 12
+  indexMonsterPoint: 0
   _rb: {fileID: 4159277621393632787}
   _agent: {fileID: 4159277621393632789}
   _stackBalls: {fileID: 4159277620599521608}

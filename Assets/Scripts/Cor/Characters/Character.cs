@@ -309,7 +309,20 @@ namespace BlueStellar.Cor.Characters
 
             if(other.gameObject.tag == "Gate")
             {
-                other.GetComponent<Gate>().ActivetedBonus(_stackBarrels, _characterColorType);
+                Gate gate = other.GetComponent<Gate>();
+                gate.ActivetedBonus(_stackBarrels, _characterColorType);
+                if (isPlayer)
+                {
+                    switch (gate.GetGateType())
+                    {
+                        case GateType.Positive:
+                            SoundManager.Instance.SoundClaimActive();
+                            break;
+                        case GateType.Negative:
+                            SoundManager.Instance.SoundNegativeBonusActive();
+                            break;
+                    }
+                }
             }
 
             if (other.gameObject.tag == "Finish")

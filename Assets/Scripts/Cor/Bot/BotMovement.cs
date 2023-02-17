@@ -16,16 +16,15 @@ namespace BlueStellar.Cor
         [SerializeField] Transform[] monsterPointsStage1;
         [SerializeField] Transform[] monsterPStage2;
         [SerializeField] Transform[] mPSgar3;
-        [SerializeField] private float range;
         [SerializeField] private float timeToMonster;
         [SerializeField] private float timer;
         [SerializeField] private bool isStopMovement;
         [SerializeField] private bool toTransport;
         [SerializeField] CharacterColorType colorType;
         [SerializeField] List<Vector3> points = new List<Vector3>();
-        [SerializeField] int min;
-        [SerializeField] int max;
-        private int indexMonsterPoint;
+        [SerializeField] private int min;
+        [SerializeField] private int max;
+        [SerializeField] private int indexMonsterPoint;
         private bool inMonster;
 
         [SerializeField] Rigidbody _rb;
@@ -216,7 +215,7 @@ namespace BlueStellar.Cor
 
         #region BotCollisions
 
-        private void OnTriggerStay(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "TransportField")
             {
@@ -225,24 +224,26 @@ namespace BlueStellar.Cor
                     if (inMonster)
                         return;
 
-                    indexMonsterPoint++;
-
                     if (other.GetComponentInParent<Transport>() == null)
                     {
+                        indexMonsterPoint++;
+
                         if (indexM == 0)
                         {
                             if (indexMonsterPoint >= monsterPointsStage1.Length)
                             {
-                                characterAnimations.RunAnimation(0);
-                                StopMovement(true);
+                                //characterAnimations.RunAnimation(0);
+                                // StopMovement(true);
+                                indexMonsterPoint = 0;
                             }
                         }
                         if (indexM == 1)
                         {
                             if (indexMonsterPoint >= monsterPStage2.Length)
                             {
-                                characterAnimations.RunAnimation(0);
-                                StopMovement(true);
+                                //characterAnimations.RunAnimation(0);
+                                //StopMovement(true);
+                                indexMonsterPoint = 0;
                             }
                         }
                         if (indexM == 2)
@@ -264,28 +265,116 @@ namespace BlueStellar.Cor
                         {
                             if (indexMonsterPoint >= monsterPointsStage1.Length)
                             {
-                                characterAnimations.RunAnimation(0);
-                                StopMovement(true);
+                                indexMonsterPoint = 0;
+                                //characterAnimations.RunAnimation(0);
+                                //StopMovement(true);
                             }
                         }
                         if (indexM == 1)
                         {
                             if (indexMonsterPoint >= monsterPStage2.Length)
                             {
-                                characterAnimations.RunAnimation(0);
-                                StopMovement(true);
+                                indexMonsterPoint = 0;
+                                //characterAnimations.RunAnimation(0);
+                                //StopMovement(true);
                             }
                         }
                         if (indexM == 2)
                         {
                             if (indexMonsterPoint >= mPSgar3.Length)
                             {
-                                characterAnimations.RunAnimation(0);
-                                StopMovement(true);
+                                indexMonsterPoint = 0;
+                                //characterAnimations.RunAnimation(0);
+                                //StopMovement(true);
                             }
                         }
                         return;
                     }
+
+                    points.Clear();
+                    SetPoints();
+                    NewPoint();
+                    UpdateMove();
+                    toTransport = false;
+                }
+            }
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.tag == "TransportField")
+            {
+                if (toTransport)
+                {
+                    if (inMonster)
+                        return;
+
+                    //if (other.GetComponentInParent<Transport>() == null)
+                    //{
+                    //    indexMonsterPoint++;
+
+                    //    if (indexM == 0)
+                    //    {
+                    //        if (indexMonsterPoint >= monsterPointsStage1.Length)
+                    //        {
+                    //            //characterAnimations.RunAnimation(0);
+                    //            // StopMovement(true);
+                    //            indexMonsterPoint = 0;
+                    //        }
+                    //    }
+                    //    if (indexM == 1)
+                    //    {
+                    //        if (indexMonsterPoint >= monsterPStage2.Length)
+                    //        {
+                    //            //characterAnimations.RunAnimation(0);
+                    //            //StopMovement(true);
+                    //            indexMonsterPoint = 0;
+                    //        }
+                    //    }
+                    //    if (indexM == 2)
+                    //    {
+                    //        if (indexMonsterPoint >= mPSgar3.Length)
+                    //        {
+                    //            characterAnimations.RunAnimation(0);
+                    //            StopMovement(true);
+                    //        }
+                    //    }
+                    //    return;
+                    //}
+
+                    //Transport transport = other.GetComponentInParent<Transport>();
+                    //if (transport.IsFullTransport())
+                    //{
+                    //    indexMonsterPoint++;
+                    //    if (indexM == 0)
+                    //    {
+                    //        if (indexMonsterPoint >= monsterPointsStage1.Length)
+                    //        {
+                    //            indexMonsterPoint = 0;
+                    //            //characterAnimations.RunAnimation(0);
+                    //            //StopMovement(true);
+                    //        }
+                    //    }
+                    //    if (indexM == 1)
+                    //    {
+                    //        if (indexMonsterPoint >= monsterPStage2.Length)
+                    //        {
+                    //            indexMonsterPoint = 0;
+                    //            //characterAnimations.RunAnimation(0);
+                    //            //StopMovement(true);
+                    //        }
+                    //    }
+                    //    if (indexM == 2)
+                    //    {
+                    //        if (indexMonsterPoint >= mPSgar3.Length)
+                    //        {
+                    //            indexMonsterPoint = 0;
+                    //            //characterAnimations.RunAnimation(0);
+                    //            //StopMovement(true);
+                    //        }
+                    //    }
+                    //    return;
+                    //}
 
                     points.Clear();
                     SetPoints();

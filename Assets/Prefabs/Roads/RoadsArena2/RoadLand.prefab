@@ -221,7 +221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5988564094867181410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.038, y: 0.542, z: -4.93}
+  m_LocalPosition: {x: 0.038, y: 0.542, z: -3.74}
   m_LocalScale: {x: 5.62633, y: 2.084, z: 0.05590223}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 8829244782186108869}
   - component: {fileID: 8829244782186100925}
   - component: {fileID: 8829244782186089449}
+  - component: {fileID: 359997426973199456}
   m_Layer: 0
   m_Name: RoadLand
   m_TagString: Untagged
@@ -317,8 +318,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8829244782186119199}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.73, y: -0.12, z: 7.755}
-  m_LocalScale: {x: 0.7690611, y: 1, z: 7.8673425}
+  m_LocalPosition: {x: -2.73, y: -0.12, z: 14.7346}
+  m_LocalScale: {x: 0.7690611, y: 1, z: 10.032971}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5025050215837594992}
@@ -377,3 +378,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &359997426973199456
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8829244782186119199}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 1, z: 4.9999995}
+  m_Center: {x: 0, y: -0.5, z: -2.4999998}

@@ -23,6 +23,11 @@ namespace BlueStellar.Cor
 
         #endregion
 
+        public GateType GetGateType()
+        {
+            return _gatesType;
+        }
+
         public void SetGatesSettings(GatesSpawner gatesSpawner, GateType gatesType)
         {
             transform.DOScale(transform.localScale, 0.5f).From(0);

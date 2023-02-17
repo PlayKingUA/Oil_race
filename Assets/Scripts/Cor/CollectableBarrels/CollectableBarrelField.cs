@@ -38,6 +38,8 @@ namespace BlueStellar.Cor
         [SerializeField] CollectableBarrelField collectableBarrelField;
         [SerializeField] private bool isFirstField;
 
+        public int testSum;
+
         private Vector3 startPoint;
         private Vector3 position;
 
@@ -129,6 +131,8 @@ namespace BlueStellar.Cor
                     break;
                 }
             }
+
+            testSum += number;
 
             for (int i = 0; i < number; i++)
             {
@@ -230,6 +234,7 @@ namespace BlueStellar.Cor
 
             if (timer >= timeToResetBall)
             {
+                
                 if (_respawnBarrels.Count == 0)
                 {
                     timer = 0f;

@@ -86,7 +86,7 @@ namespace BlueStellar.Cor
             if (isEditor)
                 return;
 
-           // levelSpawner.SpawnLevel(lvlIndex);
+            levelSpawner.SpawnLevel(lvlIndex);
             levelsProgress.CheckLevelsProgress();
             textLvlNumber.text = "Level " + lvlNumber;
         }

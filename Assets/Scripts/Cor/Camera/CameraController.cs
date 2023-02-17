@@ -68,6 +68,10 @@ namespace BlueStellar.Cor
             player = GameObject.FindObjectOfType<PlayerMovement>().transform;
             playerCam.Follow = player;
             playerCam.LookAt = player;
+            hightCam.Follow = player;
+            hightCam.LookAt = player;
+            veryHightCam.Follow = player;
+            veryHightCam.LookAt = player;
             finishcam.Follow = player;
             finishcam.LookAt = player;
         }

@@ -23,6 +23,7 @@ namespace BlueStellar.Cor
         [SerializeField] Character ch;
 
         private bool isFinish;
+        private bool canFinishRun;
 
         Vector3 gravityVelocity;
         Transform _transformPlayer;
@@ -46,7 +47,7 @@ namespace BlueStellar.Cor
 
         private void Update()
         {
-            if (isLockControll)
+            if (isLockControll || isFinish)
                 return;
 
             MovementControll();
@@ -86,8 +87,9 @@ namespace BlueStellar.Cor
         public void MoveToFinish()
         {
             ch.transform.position = characterPoint.position;
-            isFinish = true;
             characterAnimations.RunAnimation(1);
+            isFinish = true;
+            StartCoroutine(IE_CanRun());
         }
 
         private void SetPos()
@@ -98,7 +100,7 @@ namespace BlueStellar.Cor
 
         private void FinishMovement()
         {
-            if (!isFinish)
+            if (!isFinish || !canFinishRun)
                 return;
 
             if (_transformPlayer.position == finishPoint.position)
@@ -157,6 +159,13 @@ namespace BlueStellar.Cor
             yield return new WaitForSeconds(2f);
 
             LockControll(false);
+        }
+
+        private IEnumerator IE_CanRun()
+        {
+            yield return new WaitForSeconds(1f);
+
+            canFinishRun = true;
         }
     }
 }

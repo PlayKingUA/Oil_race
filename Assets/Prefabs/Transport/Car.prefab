@@ -2394,35 +2394,35 @@ MonoBehaviour:
     matFullTransport: {fileID: 2100000, guid: 3a0f0962913f77e46b8053310337d537, type: 2}
     _liquidVolume: {fileID: 684475425389751770}
     maxProgressValue: 1
-    progress: 0.03
+    progress: 0.035
   - _colorType: 2
     debug: {fileID: 1495150195911360671}
     _transportMesh: {fileID: 4278415368117891095}
     matFullTransport: {fileID: 2100000, guid: 6b4eeaae912b4704a83c5a02c6c0d059, type: 2}
     _liquidVolume: {fileID: 6096617459138095623}
     maxProgressValue: 1
-    progress: 0.03
+    progress: 0.035
   - _colorType: 3
     debug: {fileID: 6108210299935976013}
     _transportMesh: {fileID: 8093997191194179914}
     matFullTransport: {fileID: 2100000, guid: 2ca9bc25a423fe44b8923c2585498cbe, type: 2}
     _liquidVolume: {fileID: 6139173404894130321}
     maxProgressValue: 1
-    progress: 0.03
+    progress: 0.035
   - _colorType: 4
     debug: {fileID: 1067344066938812957}
     _transportMesh: {fileID: 4740236205479734080}
     matFullTransport: {fileID: 2100000, guid: 6b4eeaae912b4704a83c5a02c6c0d059, type: 2}
     _liquidVolume: {fileID: 7620158733223822987}
     maxProgressValue: 1
-    progress: 0.029
+    progress: 0.035
   - _colorType: 5
     debug: {fileID: 464489579995937388}
     _transportMesh: {fileID: 4204382612717108936}
     matFullTransport: {fileID: 2100000, guid: 3a0f0962913f77e46b8053310337d537, type: 2}
     _liquidVolume: {fileID: 6548765558728905657}
     maxProgressValue: 1
-    progress: 0.029
+    progress: 0.035
   transperentBody: {fileID: 6114880782808425746}
   details:
   - {fileID: 4488286618064739451}
@@ -2476,7 +2476,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6114880784427035160}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.8947133, y: 1.513527, z: 1.194636}
@@ -2496,7 +2496,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &6114880784521244246
 GameObject:
   m_ObjectHideFlags: 0

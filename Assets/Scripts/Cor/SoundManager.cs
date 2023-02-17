@@ -19,6 +19,7 @@ namespace BlueStellar.Cor
 
         [Header("Sounds")]
         [SerializeField] AudioSource soundClaim;
+        [SerializeField] AudioSource soundNegativeBonus;
         [SerializeField] AudioSource soundHit;
 
         private bool isOffSound;
@@ -48,6 +49,14 @@ namespace BlueStellar.Cor
                 return;
 
             soundClaim.Play();
+        }
+
+        public void SoundNegativeBonusActive()
+        {
+            if (isOffSound)
+                return;
+
+            soundNegativeBonus.Play();
         }
 
         public void SoundHitActive()
