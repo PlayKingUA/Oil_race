@@ -31,6 +31,7 @@ namespace BlueStellar.Cor.Characters
         [SerializeField] PlayerMovement playerMovement;
         [SerializeField] BotMovement botMovement;
         [SerializeField] ParticleSystem effectLand;
+        [SerializeField] private string _name;
         [SerializeField] private int indexField;
         [SerializeField] private bool isPlayer;
         [SerializeField] private bool isDeactiveCharacter;
@@ -40,12 +41,17 @@ namespace BlueStellar.Cor.Characters
 
         private TransportType _transportType;
         private Transport _transport;
-
+        
         #endregion
 
         public bool IsPlayer()
         {
             return isPlayer;
+        }
+
+        public string SetupName(string newName)
+        {
+            return _name = newName;
         }
 
         private void Start()
@@ -373,6 +379,7 @@ namespace BlueStellar.Cor.Characters
                     return;
                 }
 
+                _transport.SetupNameCharacter(_name);
                 _stackBarrels.UnstackCollectableBarrel(_transport);
 
                 if (_stackBarrels.AmmountBalls() == 0)

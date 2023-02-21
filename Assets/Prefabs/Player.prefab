@@ -445,6 +445,7 @@ MonoBehaviour:
   playerMovement: {fileID: 8704299346495859623}
   botMovement: {fileID: 0}
   effectLand: {fileID: 8418384009632573252}
+  _name: PLAYER
   indexField: 0
   isPlayer: 1
   isDeactiveCharacter: 0
@@ -1291,7 +1292,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_TargetDisplay: 0
 --- !u!225 &8704299346495849675
 CanvasGroup:
@@ -1609,6 +1610,7 @@ MonoBehaviour:
   - '   '
   - '    '
   - '     '
+  _character: {fileID: 4233619008701592468}
 --- !u!1 &8704299346495925807
 GameObject:
   m_ObjectHideFlags: 0

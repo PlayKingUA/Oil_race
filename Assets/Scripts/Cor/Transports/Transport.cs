@@ -21,6 +21,7 @@ namespace BlueStellar.Cor.Transports
             public LiquidVolume _liquidVolume;
             public float maxProgressValue;
             public float progress;
+            public string _name;
         }
 
         #region Variables
@@ -52,7 +53,11 @@ namespace BlueStellar.Cor.Transports
         [Space]
         [Header("CanvasTransport")]
         [SerializeField] GameObject canvasTransport;
+        [SerializeField] GameObject smallCanvasTransport;
         [SerializeField] TextMeshProUGUI textPercent;
+        [SerializeField] TextMeshProUGUI textSecondPersent;
+        [SerializeField] TextMeshProUGUI textNameCharacter;
+        [SerializeField] TextMeshProUGUI textNameSecondCharacter;
 
         [Space]
         [Header("TransportField")]
@@ -73,8 +78,9 @@ namespace BlueStellar.Cor.Transports
         public Transform dir;
         public bool isDebug;
         private int fillingPercent;
+        private int fillingSecondPrecent;
         private bool isFullTransport;
-
+        private string _characterName;
         private CharacterColorType _colorType;
         private Character _character;
         private ColorTransport _colorTransport;
@@ -152,17 +158,23 @@ namespace BlueStellar.Cor.Transports
             }
         }
 
+        public void SetupNameCharacter(string characterName)
+        {
+            _characterName = characterName;
+        }
+
         public void SetupMaterialSettings(CharacterColorType characterColorType)
         {
             foreach(var i in colorTransports)
             {
                 if(i._colorType == characterColorType)
                 {
+                    i._name = _characterName;
                     _colorTransport = i;
                     break;
                 }
             }
-            
+
             _colorTransport._liquidVolume.level += _colorTransport.progress;
             FillingPercentageCalculation();
             CheckTransport();
@@ -199,7 +211,6 @@ namespace BlueStellar.Cor.Transports
                     }
                 }
 
-
                 if(dopAnim != null)
                 {
                     dopAnim.DOPlay();
@@ -215,12 +226,20 @@ namespace BlueStellar.Cor.Transports
             colorTransports = colorTransports.OrderBy(i => i._liquidVolume.level).ToList();
             foreach(var i in colorTransports) { i._transportMesh.gameObject.SetActive(false); }
             colorTransports[colorTransports.Count - 1]._transportMesh.gameObject.SetActive(true);
+            fillingSecondPrecent = (int)(colorTransports[colorTransports.Count - 2]._liquidVolume.level / (colorTransports[colorTransports.Count - 2].maxProgressValue / 100));
             fillingPercent = (int)(colorTransports[colorTransports.Count - 1]._liquidVolume.level / (colorTransports[colorTransports.Count - 1].maxProgressValue / 100));
+            textNameCharacter.text = colorTransports[colorTransports.Count - 1]._name;
+            textNameSecondCharacter.text = colorTransports[colorTransports.Count - 2]._name;
+            if (fillingPercent >= 1 && fillingPercent < 100) { canvasTransport.SetActive(true); }
+            if(fillingSecondPrecent >= 1 && fillingSecondPrecent < 100) { smallCanvasTransport.SetActive(true); }
+
             if(fillingPercent > 100)
             {
                 fillingPercent = 100;
             }
+
             textPercent.text = fillingPercent + "%";
+            textSecondPersent.text = fillingSecondPrecent + "%";
         }
     }
 }

@@ -36,18 +36,21 @@ MonoBehaviour:
     - NavMeshComponentsTestsPlaymode
     - Cinemachine
     - ToonyColorsPro2.Demo
+    - AppsFlyer
     - NavMeshComponentsExamples
     - Sirenix.OdinInspector.CompatibilityLayer
     - ToonyColorsPro.Runtime
     - MoreMountains.NiceVibrations
     - NavMeshComponents
     - KinoBloom.Runtime
+    - Tests
     - ToonyColorsPro.Editor
     - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - MoreMountains.NiceVibrations.Editor
     - NavMeshComponentsTestsEditmode
     - NavMeshComponentsEditor
     - ToonyColorsPro.Demo.Editor
+    - AppsFlyer.Editor
     - NavMeshComponentsExamplesEditor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using BlueStellar.Cor.Characters;
 
 namespace BlueStellar.Cor
 {
@@ -7,6 +8,8 @@ namespace BlueStellar.Cor
     {
         [SerializeField] TextMeshProUGUI textName;
         [SerializeField] string[] names;
+        [SerializeField] Character _character;
+
         private string _name;
 
         public string Name()
@@ -19,6 +22,7 @@ namespace BlueStellar.Cor
             int randomIndex = Random.Range(0, names.Length);
             textName.text = names[randomIndex];
             _name = names[randomIndex];
+            _character.SetupName(_name);
         }
     }
 }

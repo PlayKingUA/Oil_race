@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using BlueStellar.Cor.Characters;
 
 namespace BlueStellar.Cor
 {
@@ -8,6 +9,7 @@ namespace BlueStellar.Cor
         [SerializeField] TextMeshProUGUI textName;
         [SerializeField] private string playerName;
         [SerializeField] private string[] notCorrectNames;
+        [SerializeField] Character _character;
 
         public string Name()
         {
@@ -36,6 +38,7 @@ namespace BlueStellar.Cor
         private void SetName()
         {
             textName.text = playerName;
+            _character.SetupName(playerName);
             Save();
         }
 

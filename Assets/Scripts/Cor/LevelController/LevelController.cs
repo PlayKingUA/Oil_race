@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using BlueStellar.Cor.SDK;
 
 namespace BlueStellar.Cor
 {
@@ -21,12 +22,14 @@ namespace BlueStellar.Cor
 
         #region Variables
 
-        [SerializeField] LevelSpawner levelSpawner;
-        [SerializeField] LevelsProgress levelsProgress;
+        [SerializeField] LevelSpawner _levelSpawner;
+        [SerializeField] LevelsProgress _levelsProgress;
+        [SerializeField] AppMetricaAnalytics _analytics;
         [SerializeField] Text textLvlNumber;
         [SerializeField] private int lvlNumber;
         [SerializeField] private bool isEditor;
         private int lvlIndex;
+        private bool isLevelEnd;
 
         #endregion
 
@@ -51,8 +54,12 @@ namespace BlueStellar.Cor
             return lvlIndex;
         }
 
+        #region LevelActions
+
         public void LevelStart()
         {
+            _analytics.NewAttempt();
+            _analytics.LevelStartEvent();
             OnLevelStart.Invoke();
             UIManager.Instance.TutorialScreen(false);   
             UIManager.Instance.StartScreen(false);
@@ -60,6 +67,12 @@ namespace BlueStellar.Cor
 
         public void LevelCompleted()
         {
+            if (isLevelEnd) 
+                return;
+
+            isLevelEnd = true;
+            _analytics.LevelFinishEvent("win");
+            _analytics.NewAttempt();
             LevelEnd();
             OnLevelCompleted?.Invoke();
             StartCoroutine(IE_WinCondtional());
@@ -67,6 +80,13 @@ namespace BlueStellar.Cor
 
         public void LevelFailed()
         {
+            if (isLevelEnd)
+                return;
+
+            isLevelEnd = true;
+
+            _analytics.LevelFinishEvent("lose");
+            _analytics.NewAttempt();
             LevelEnd();
             OnLevelFailed.Invoke();
             StartCoroutine(IE_LoseConditional());
@@ -86,8 +106,8 @@ namespace BlueStellar.Cor
             if (isEditor)
                 return;
 
-            levelSpawner.SpawnLevel(lvlIndex);
-            levelsProgress.CheckLevelsProgress();
+            _levelSpawner.SpawnLevel(lvlIndex);
+            _levelsProgress.CheckLevelsProgress();
             textLvlNumber.text = "Level " + lvlNumber;
         }
 
@@ -95,13 +115,19 @@ namespace BlueStellar.Cor
         {
             lvlIndex++;
             lvlNumber++;
-            if(lvlIndex >= 15)
+            if (lvlIndex >= 15)
             {
+                _analytics.NewLevelLoop();
                 lvlIndex = 0;
             }
-            levelsProgress.ProgressUp();
+            _levelsProgress.ProgressUp();
+            _analytics.NewLevel();
             Save();
         }
+
+        #endregion
+
+        #region LevelConditional
 
         private IEnumerator IE_WinCondtional()
         {
@@ -116,6 +142,8 @@ namespace BlueStellar.Cor
 
             UIManager.Instance.LoseScreen(true);
         }
+
+        #endregion
 
         #region Load&Save
 
@@ -132,5 +160,10 @@ namespace BlueStellar.Cor
         }
 
         #endregion
+
+        private void OnApplicationQuit()
+        {
+            _analytics.LevelFinishEvent("game_closed");
+        }
     }
 }

@@ -254,6 +254,7 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   botMovement: {fileID: 4159277621393632788}
   effectLand: {fileID: 0}
+  _name: 
   indexField: 0
   isPlayer: 0
   isDeactiveCharacter: 0
@@ -765,6 +766,7 @@ MonoBehaviour:
   - SAM
   - RON
   - GARRY
+  _character: {fileID: 4159277620599521610}
 --- !u!1 &4159277621339399388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,7 +1355,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_TargetDisplay: 0
 --- !u!225 &4159277622068337685
 CanvasGroup:
